@@ -69,7 +69,7 @@
                                              style="width: 50px;">
                                     </td>
                                     <td><?php echo htmlspecialchars($product['name']); ?></td>
-                                    <td>$<?php echo number_format($product['price'], 2); ?></td>
+                                    <td><?php echo formatCurrency($product['price']); ?></td>
                                     <td><?php echo $product['stock_quantity']; ?></td>
                                     <td><?php echo date('M d, Y', strtotime($product['created_at'])); ?></td>
                                     <td>

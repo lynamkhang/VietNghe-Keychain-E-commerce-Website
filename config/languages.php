@@ -65,6 +65,7 @@ return [
         'available' => 'Available',
         'actions' => 'Actions',
         'remove' => 'Remove',
+        'cart_items' => 'items in cart',
 
         // Checkout Page
         'checkout' => 'Checkout',
@@ -182,7 +183,7 @@ return [
         'next' => 'Tiếp',
         'view_details' => 'Xem chi tiết',
         'free_shipping' => 'Miễn phí vận chuyển',
-        'free_shipping_desc' => 'Miễn phí vận chuyển cho đơn hàng trên $50',
+        'free_shipping_desc' => 'Miễn phí vận chuyển cho đơn hàng trên 1.000.000₫',
         'easy_returns' => 'Đổi trả dễ dàng',
         'easy_returns_desc' => 'Chính sách đổi trả trong 30 ngày',
         'secure_payment' => 'Thanh toán an toàn',
@@ -219,6 +220,7 @@ return [
         'available' => 'Còn hàng',
         'actions' => 'Thao tác',
         'remove' => 'Xóa',
+        'cart_items' => 'items in cart',
 
         // Checkout Page
         'checkout' => 'Thanh toán',

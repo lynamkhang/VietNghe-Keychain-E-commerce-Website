@@ -216,10 +216,10 @@ class AdminController extends Controller {
         }
 
         try {
-            $this->productModel->delete($id);
-            $this->redirect('/admin/products?success=deleted');
+            $this->productModel->softDelete($id);
+            $this->redirect('/admin/products?success=Product has been removed');
         } catch (Exception $e) {
-            $this->redirect('/admin/products?error=delete_failed');
+            $this->redirect('/admin/products?error=' . urlencode($e->getMessage()));
         }
     }
 

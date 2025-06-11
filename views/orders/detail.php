@@ -37,6 +37,9 @@
                                             <?php endif; ?>
                                             <div>
                                                 <?= htmlspecialchars($item['name']) ?>
+                                                <?php if ($item['deleted']): ?>
+                                                    <span class="badge bg-secondary">Product no longer available</span>
+                                                <?php endif; ?>
                                             </div>
                                         </div>
                                     </td>

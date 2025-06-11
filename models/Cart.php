@@ -10,7 +10,7 @@ class Cart extends Model {
                 FROM cart_items ci 
                 JOIN shopping_carts sc ON ci.cart_id = sc.cart_id 
                 JOIN products p ON ci.product_id = p.product_id 
-                WHERE sc.user_id = ?";
+                WHERE sc.user_id = ? AND p.deleted = 0";
         $stmt = $this->db->prepare($sql);
         $stmt->bind_param("i", $userId);
         $stmt->execute();
@@ -20,14 +20,18 @@ class Cart extends Model {
 
     public function addToCart($userId, $productId, $quantity) {
         // Check stock quantity first
-        $sql = "SELECT stock_quantity FROM products WHERE product_id = ?";
+        $sql = "SELECT stock_quantity FROM products WHERE product_id = ? AND deleted = 0";
         $stmt = $this->db->prepare($sql);
         $stmt->bind_param("i", $productId);
         $stmt->execute();
         $result = $stmt->get_result();
         $product = $result->fetch_assoc();
 
-        if (!$product || $quantity > $product['stock_quantity']) {
+        if (!$product) {
+            throw new Exception("Product not available");
+        }
+
+        if ($quantity > $product['stock_quantity']) {
             throw new Exception("Not enough stock available");
         }
 
@@ -130,5 +134,17 @@ class Cart extends Model {
         $result = $stmt->get_result();
         $row = $result->fetch_assoc();
         return $row['total'] ?? 0;
+    }
+
+    public function getCartItemCount($userId) {
+        $sql = "SELECT COUNT(*) as count FROM cart_items ci 
+                JOIN shopping_carts sc ON ci.cart_id = sc.cart_id 
+                WHERE sc.user_id = ?";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bind_param("i", $userId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $row = $result->fetch_assoc();
+        return $row['count'] ?? 0;
     }
 } 

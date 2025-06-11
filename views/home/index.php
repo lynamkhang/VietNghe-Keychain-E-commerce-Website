@@ -55,9 +55,8 @@
                          alt="<?php echo htmlspecialchars($product['name']); ?>">
                     <div class="card-body">
                         <h5 class="card-title"><?php echo htmlspecialchars($product['name']); ?></h5>
-                        <p class="card-text"><?php echo htmlspecialchars($product['description']); ?></p>
                         <p class="card-text">
-                            <strong><?= __('price') ?>: $<?php echo number_format($product['price'], 2); ?></strong>
+                            <strong><?= __('price') ?>: <?php echo formatCurrency($product['price']); ?></strong>
                         </p>
                         <a href="<?= $this->basePath ?>/products/<?php echo $product['product_id']; ?>" class="btn btn-primary"><?= __('view_details') ?></a>
                     </div>

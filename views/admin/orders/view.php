@@ -94,16 +94,16 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td>$<?php echo number_format($item['price'], 2); ?></td>
+                                    <td><?php echo formatCurrency($item['price']); ?></td>
                                     <td><?php echo $item['quantity']; ?></td>
-                                    <td>$<?php echo number_format($item['price'] * $item['quantity'], 2); ?></td>
+                                    <td><?php echo formatCurrency($item['price'] * $item['quantity']); ?></td>
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>
                         <tfoot>
                             <tr>
                                 <td colspan="3" class="text-end"><strong>Total:</strong></td>
-                                <td><strong>$<?php echo number_format($order['total_amount'], 2); ?></strong></td>
+                                <td><strong><?php echo formatCurrency($order['total_amount']); ?></strong></td>
                             </tr>
                         </tfoot>
                     </table>

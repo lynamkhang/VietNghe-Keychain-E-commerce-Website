@@ -112,8 +112,8 @@ class Order extends Model {
             return null;
         }
 
-        // Get order items with product details
-        $sql = "SELECT oi.*, p.name, p.image_url 
+        // Get order items with product details, including deleted status
+        $sql = "SELECT oi.*, p.name, p.image_url, p.deleted 
                 FROM order_items oi 
                 JOIN products p ON oi.product_id = p.product_id 
                 WHERE oi.order_id = ?";

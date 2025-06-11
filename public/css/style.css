@@ -59,6 +59,17 @@ footer {
     gap: 1rem;
 }
 
+.nav-right .nav-link {
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+}
+
+.nav-right .nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+}
+
 /* Main Navigation Active Indicator */
 #navbarNav .nav-link.active {
     color: #fff !important;
@@ -114,6 +125,16 @@ footer {
 .btn {
     white-space: nowrap;
     min-width: max-content;
+}
+
+/* Cart icon styling */
+.fa-shopping-cart {
+    font-size: 1.2rem;
+}
+
+.nav-link .badge {
+    font-size: 0.75rem;
+    transform: translate(25%, -25%) !important;
 }
 
 /* Feature section styling */

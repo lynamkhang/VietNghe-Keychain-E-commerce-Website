@@ -16,7 +16,6 @@
                      alt="<?php echo htmlspecialchars($product['name']); ?>">
                 <div class="card-body">
                     <h5 class="card-title"><?php echo htmlspecialchars($product['name']); ?></h5>
-                    <p class="card-text"><?php echo htmlspecialchars($product['description']); ?></p>
                     <p class="card-text">
                         <strong><?= __('price') ?>: <?php echo formatCurrency($product['price']); ?></strong>
                     </p>

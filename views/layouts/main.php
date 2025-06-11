@@ -25,9 +25,6 @@
                                 <a class="nav-link" href="<?= $this->basePath ?>/products"><?= __('products') ?></a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="<?= $this->basePath ?>/cart"><?= __('cart') ?></a>
-                            </li>
-                            <li class="nav-item">
                                 <a class="nav-link" href="<?= $this->basePath ?>/orders"><?= __('orders') ?></a>
                             </li>
                         </ul>
@@ -90,6 +87,22 @@
                             <li><a class="dropdown-item" href="<?= $this->basePath ?>/logout"><?= __('logout') ?></a></li>
                         </ul>
                     </div>
+                    <?php
+                        $cartCount = 0;
+                        if (isset($_SESSION['user'])) {
+                            $cartModel = new Cart();
+                            $cartCount = $cartModel->getCartItemCount($_SESSION['user']['user_id']);
+                        }
+                    ?>
+                    <a class="nav-link position-relative text-light" href="<?= $this->basePath ?>/cart">
+                        <i class="fas fa-shopping-cart"></i>
+                        <?php if ($cartCount > 0): ?>
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                <?= $cartCount ?>
+                                <span class="visually-hidden"><?= __('cart_items') ?></span>
+                            </span>
+                        <?php endif; ?>
+                    </a>
                 <?php else: ?>
                     <a class="nav-link text-light" href="<?= $this->basePath ?>/login"><?= __('login') ?></a>
                     <a class="btn btn-outline-light" href="<?= $this->basePath ?>/register"><?= __('register') ?></a>

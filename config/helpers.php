@@ -31,9 +31,9 @@ function getLanguageOptions() {
 function formatCurrency($amount, $currency = 'VND') {
     if ($currency === 'VND') {
         // Format as VND (no decimal places, group thousands, add ₫ symbol)
-        return number_format($amount * 23000, 0, ',', '.') . '₫';
+        return number_format($amount, 0, ',', '.') . '₫';
     } else {
-        // Default USD format
+        // USD format as fallback
         return '$' . number_format($amount, 2, '.', ',');
     }
 } 

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 23, 2025 at 03:24 AM
+-- Generation Time: Jun 11, 2025 at 04:15 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -52,6 +52,13 @@ CREATE TABLE `orders` (
   `shipping_address` varchar(200) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `orders`
+--
+
+INSERT INTO `orders` (`order_id`, `user_id`, `cart_id`, `processed_by`, `order_date`, `total_amount`, `status`, `shipping_address`) VALUES
+(2, 1, 2, NULL, '2025-06-11 04:00:21', 12000.00, 'delivered', '173/13B Bình Thới, Phường 11, Quận 11\nTP.Hồ Chí Minh, Việt Nam');
+
 -- --------------------------------------------------------
 
 --
@@ -63,8 +70,15 @@ CREATE TABLE `order_items` (
   `order_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
   `quantity` int(11) NOT NULL,
-  `price` decimal(6,2) NOT NULL
+  `price` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `order_items`
+--
+
+INSERT INTO `order_items` (`order_item_id`, `order_id`, `product_id`, `quantity`, `price`) VALUES
+(2, 2, 6, 1, 12000);
 
 -- --------------------------------------------------------
 
@@ -76,14 +90,25 @@ CREATE TABLE `products` (
   `product_id` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
   `description` text DEFAULT NULL,
-  `price` decimal(6,2) NOT NULL,
+  `price` bigint(20) NOT NULL,
   `color` varchar(30) DEFAULT NULL,
   `material` varchar(30) DEFAULT NULL,
   `stock_quantity` int(11) NOT NULL DEFAULT 0,
   `image_url` varchar(150) DEFAULT NULL,
   `created_by` int(11) DEFAULT NULL,
-  `created_at` datetime DEFAULT current_timestamp()
+  `created_at` datetime DEFAULT current_timestamp(),
+  `deleted` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `products`
+--
+
+INSERT INTO `products` (`product_id`, `name`, `description`, `price`, `color`, `material`, `stock_quantity`, `image_url`, `created_by`, `created_at`, `deleted`) VALUES
+(1, 'Việt Nam ', 'Móc khóa hình cờ VN', 12000, 'Đỏ', 'Nhựa', 9, '/vietnghe-keychain/public/uploads/products/6848dd0a24420.jpg', 2, '2025-06-11 08:34:02', 0),
+(2, 'Máu đỏ da vàng', 'Móc khóa in chữ máu đỏ da vàng', 20000, 'Trắng', 'Nhựa', 20, '/vietnghe-keychain/public/uploads/products/6848e4caa9836.jpg', 2, '2025-06-11 09:07:06', 0),
+(3, 'Bến Thành', 'Móc khóa hình chợ Bến Thành', 10000, 'Xanh', 'Nhựa', 30, '/vietnghe-keychain/public/uploads/products/6848e511aaa00.jpg', 2, '2025-06-11 09:08:17', 0),
+(4, 'Độc lập tự do hạnh phúc', 'Móc Khóa in chữ độc lập tự do hạnh phúc', 9000, 'Trắng', 'Nhựa', 14, '/vietnghe-keychain/public/uploads/products/6848e58e186f6.jpg', 2, '2025-06-11 09:10:22', 0);
 
 -- --------------------------------------------------------
 
@@ -96,6 +121,14 @@ CREATE TABLE `shopping_carts` (
   `user_id` int(11) NOT NULL,
   `created_at` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `shopping_carts`
+--
+
+INSERT INTO `shopping_carts` (`cart_id`, `user_id`, `created_at`) VALUES
+(1, 2, '2025-06-04 08:42:49'),
+(2, 1, '2025-06-04 09:41:59');
 
 -- --------------------------------------------------------
 
@@ -116,6 +149,13 @@ CREATE TABLE `users` (
   `created_at` datetime DEFAULT current_timestamp(),
   `last_login` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`user_id`, `username`, `email`, `password`, `role`, `first_name`, `last_name`, `phone`, `address`, `created_at`, `last_login`) VALUES
+(1, 'admin', 'admin@mail.com', '$2y$10$SEsF6yqwNwwHEzugqT3IqurkH1i0IUPj8Ybruii96HOS6.5OxvW4a', 'admin', 'admin', '', '0784513411', '123', '2025-05-28 09:29:49', '2025-05-28 10:08:16');
 
 --
 -- Indexes for dumped tables
@@ -176,37 +216,37 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `cart_items`
 --
 ALTER TABLE `cart_items`
-  MODIFY `cart_item_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `cart_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `order_item_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `order_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `shopping_carts`
 --
 ALTER TABLE `shopping_carts`
-  MODIFY `cart_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `cart_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Constraints for dumped tables

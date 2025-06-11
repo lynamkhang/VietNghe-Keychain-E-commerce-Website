@@ -13,22 +13,25 @@ class Product extends Model
 
     public function findAll()
     {
-        $sql = "SELECT * FROM {$this->table} ORDER BY created_at DESC";
+        $sql = "SELECT * FROM {$this->table} WHERE deleted = 0 ORDER BY created_at DESC";
         $result = $this->db->query($sql);
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
     public function findById($id)
     {
-        $sql = "SELECT * FROM {$this->table} WHERE {$this->primaryKey} = " . intval($id);
-        $result = $this->db->query($sql);
+        $sql = "SELECT * FROM {$this->table} WHERE {$this->primaryKey} = ? AND deleted = 0";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
         return $result->fetch_assoc();
     }
 
     public function searchProducts($keyword)
     {
         $keyword = $this->db->real_escape_string($keyword);
-        $sql = "SELECT * FROM {$this->table} WHERE name LIKE '%{$keyword}%' OR description LIKE '%{$keyword}%'";
+        $sql = "SELECT * FROM {$this->table} WHERE deleted = 0 AND (name LIKE '%{$keyword}%' OR description LIKE '%{$keyword}%')";
         $result = $this->db->query($sql);
         return $result->fetch_all(MYSQLI_ASSOC);
     }
@@ -37,15 +40,36 @@ class Product extends Model
     {
         $id = intval($id);
         $quantity = intval($quantity);
-        $sql = "UPDATE {$this->table} SET stock_quantity = stock_quantity - {$quantity} WHERE {$this->primaryKey} = {$id} AND stock_quantity >= {$quantity}";
+        $sql = "UPDATE {$this->table} SET stock_quantity = stock_quantity - {$quantity} WHERE {$this->primaryKey} = {$id} AND stock_quantity >= {$quantity} AND deleted = 0";
         return $this->db->query($sql);
     }
 
     public function getAll()
     {
-        $sql = "SELECT * FROM {$this->table} ORDER BY created_at DESC";
+        $sql = "SELECT * FROM {$this->table} WHERE deleted = 0 ORDER BY created_at DESC";
         $result = $this->db->query($sql);
         return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function softDelete($id) {
+        try {
+            // Check if product exists in any orders
+            $sql = "SELECT COUNT(*) as count FROM order_items WHERE product_id = ?";
+            $stmt = $this->db->prepare($sql);
+            $stmt->bind_param("i", $id);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $row = $result->fetch_assoc();
+
+            // Mark the product as deleted
+            $sql = "UPDATE {$this->table} SET deleted = 1 WHERE {$this->primaryKey} = ?";
+            $stmt = $this->db->prepare($sql);
+            $stmt->bind_param("i", $id);
+            return $stmt->execute();
+        } catch (Exception $e) {
+            error_log("Error soft deleting product: " . $e->getMessage());
+            throw $e;
+        }
     }
 
     public function create($data)
@@ -81,6 +105,9 @@ class Product extends Model
             $created_by = $_SESSION['user']['id'];
         }
 
+        // Ensure price is handled as an integer
+        $data['price'] = (int)$data['price'];
+
         // Prepare data for insertion using prepared statements
         $sql = "INSERT INTO {$this->table} (name, description, price, color, material, stock_quantity, image_url, created_by, created_at) 
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW())";
@@ -91,7 +118,7 @@ class Product extends Model
         }
 
         $stmt->bind_param(
-            "ssdssisi",
+            "ssissisi",
             $data['name'],
             $data['description'],
             $data['price'],
@@ -133,6 +160,11 @@ class Product extends Model
             }
         }
 
+        // Ensure price is handled as an integer if it's being updated
+        if (isset($data['price'])) {
+            $data['price'] = (int)$data['price'];
+        }
+
         // Build the SET part of the query
         $setParts = [];
         $types = '';
@@ -142,10 +174,10 @@ class Product extends Model
             if ($value !== null) {
                 $setParts[] = "$key = ?";
                 // Determine the type of the value
-                if (is_int($value)) {
+                if ($key === 'price') {
+                    $types .= 'i'; // Use integer for price
+                } elseif (is_int($value)) {
                     $types .= 'i';
-                } elseif (is_float($value)) {
-                    $types .= 'd';
                 } else {
                     $types .= 's';
                 }
