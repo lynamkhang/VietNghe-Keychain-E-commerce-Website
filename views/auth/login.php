@@ -20,8 +20,8 @@
 
                 <form action="/vietnghe-keychain/login" method="POST">
                     <div class="mb-3">
-                        <label for="email" class="form-label"><?= __('email') ?></label>
-                        <input type="email" class="form-control" id="email" name="email" value="<?php echo isset($email) ? htmlspecialchars($email) : ''; ?>" required>
+                        <label for="email" class="form-label"><?= __('username_or_email') ?></label>
+                        <input type="text" class="form-control" id="email" name="email" value="<?php echo isset($email) ? htmlspecialchars($email) : ''; ?>" required>
                     </div>
                     <div class="mb-3">
                         <label for="password" class="form-label"><?= __('current_password') ?></label>

@@ -17,9 +17,9 @@ class AuthController extends Controller {
                 $this->redirect('/login?error=missing_fields');
             }
 
-            if ($this->userModel->verifyPassword($data['email'], $data['password'])) {
-                $user = $this->userModel->findByEmail($data['email']);
-                
+            $user = $this->userModel->findByUsernameOrEmail($data['email']);
+            
+            if ($user && password_verify($data['password'], $user['password'])) {
                 // Set session data properly to match what Controller expects
                 $_SESSION['user'] = [
                     'id' => $user['user_id'],

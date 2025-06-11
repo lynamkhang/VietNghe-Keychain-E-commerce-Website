@@ -132,6 +132,7 @@ return [
         'dont_account' => 'Don\'t have an account?',
         'password_reset' => 'Password Reset',
         'reset_password' => 'Reset Password',
+        'username_or_email' => 'Username or Email',
 
         // Messages
         'success' => 'Success',
@@ -287,6 +288,7 @@ return [
         'dont_account' => 'Chưa có tài khoản?',
         'password_reset' => 'Đặt lại mật khẩu',
         'reset_password' => 'Đặt lại mật khẩu',
+        'username_or_email' => 'Tên đăng nhập hoặc Email',
 
         // Messages
         'success' => 'Thành công',

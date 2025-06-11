@@ -23,6 +23,13 @@ class User extends Model {
         return $result->fetch_assoc();
     }
 
+    public function findByUsernameOrEmail($login) {
+        $login = $this->db->real_escape_string($login);
+        $sql = "SELECT * FROM {$this->table} WHERE username = '{$login}' OR email = '{$login}' LIMIT 1";
+        $result = $this->db->query($sql);
+        return $result->fetch_assoc();
+    }
+
     public function verifyPassword($email, $password) {
         $user = $this->findByEmail($email);
         if ($user && password_verify($password, $user['password'])) {

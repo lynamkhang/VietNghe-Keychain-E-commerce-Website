@@ -5,7 +5,7 @@ A PHP-based e-commerce website specialized in selling unique and customizable ke
 ## 🚀 Features
 
 - User Authentication (Login/Register)
-- Product Catalog with Categories
+- Product
 - Shopping Cart Management
 - Stock Management
 - Responsive Design
@@ -33,7 +33,7 @@ A PHP-based e-commerce website specialized in selling unique and customizable ke
 1. Clone the repository to your XAMPP's htdocs folder:
 ```bash
 cd /xampp/htdocs
-git clone [repository-url] vietnghe-keychain
+git clone https://github.com/lynamkhang/VietNghe-Keychain-E-commerce-Website.git
 ```
 
 2. Import the database:
@@ -91,31 +91,8 @@ vietnghe-keychain/
 - View sales reports
 - Manage user accounts
 
-## 🤝 Contributing
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
 
-## 📝 License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
 
-## 👥 Authors
 
-- [Your Name] - *Initial work*
-
-## 📧 Contact
-
-For any inquiries or support, please contact:
-- Email: [your-email@example.com]
-- Website: [your-website.com]
-
-## 🙏 Acknowledgments
-
-- XAMPP development team
-- PHP community
-- All contributors and testers
-# VietNghe-Keychain-E-commerce-Website
