@@ -9,9 +9,32 @@
                     <div class="alert alert-danger">
                         <ul class="mb-0">
                             <?php foreach ($errors as $error): ?>
-                                <li><?php echo __($error); ?></li>
+                                <li><?= __($error) ?></li>
                             <?php endforeach; ?>
                         </ul>
+                    </div>
+                <?php endif; ?>
+
+                <?php if (isset($_GET['error'])): ?>
+                    <div class="alert alert-danger">
+                        <?php
+                        switch ($_GET['error']) {
+                            case 'password_mismatch':
+                                echo __('passwords_do_not_match');
+                                break;
+                            case 'missing_fields':
+                                echo __('fill_required_fields');
+                                break;
+                            case 'email_exists':
+                                echo __('email_exists');
+                                break;
+                            case 'username_exists':
+                                echo __('username_exists');
+                                break;
+                            default:
+                                echo __('general_error');
+                        }
+                        ?>
                     </div>
                 <?php endif; ?>
 

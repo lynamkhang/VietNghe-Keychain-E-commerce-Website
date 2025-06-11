@@ -84,10 +84,13 @@ class AuthController extends Controller {
                     'email' => $data['email'],
                     'password' => $data['password'],
                     'first_name' => $data['first_name'] ?? null,
-                    'last_name' => $data['last_name'] ?? null
+                    'last_name' => $data['last_name'] ?? null,
+                    'phone' => $data['phone'] ?? null,
+                    'address' => $data['address'] ?? null
                 ]);
 
-                $this->redirect('/login?success=registered');
+                $_SESSION['success'] = 'registration_success';
+                $this->redirect('/login');
             } catch (Exception $e) {
                 $this->redirect('/register?error=registration_failed');
             }

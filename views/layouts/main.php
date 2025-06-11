@@ -112,6 +112,14 @@
     </nav>
 
     <main class="container my-4">
+        <?php if (isset($_SESSION['success'])): ?>
+            <div class="alert alert-success">
+                <?php 
+                echo __($_SESSION['success']);
+                unset($_SESSION['success']);
+                ?>
+            </div>
+        <?php endif; ?>
         <?php echo $content; ?>
     </main>
 
@@ -132,6 +140,5 @@
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="<?= $this->basePath ?>/public/js/main.js"></script>
 </body>
 </html> 

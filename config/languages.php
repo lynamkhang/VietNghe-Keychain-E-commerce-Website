@@ -134,6 +134,9 @@ return [
         'reset_password' => 'Reset Password',
         'username_or_email' => 'Username or Email',
         'invalid_credentials' => 'Invalid email/username or password',
+        'passwords_do_not_match' => 'Passwords do not match',
+        'username_exists' => 'Username already exists',
+        'email_exists' => 'Email already exists',
 
         // Messages
         'success' => 'Success',
@@ -148,6 +151,7 @@ return [
         'loading' => 'Loading...',
         'no_results' => 'No results found',
         'required_field' => 'This field is required',
+        'registration_success' => 'Registration successful! Please login to continue.',
 
         // Product Pages
         'search_results_for' => 'Search results for',
@@ -291,6 +295,9 @@ return [
         'reset_password' => 'Đặt lại mật khẩu',
         'username_or_email' => 'Tên đăng nhập hoặc Email',
         'invalid_credentials' => 'Sai tên đăng nhập/email hoặc mật khẩu',
+        'passwords_do_not_match' => 'Mật khẩu không khớp',
+        'username_exists' => 'Tên đăng nhập đã tồn tại',
+        'email_exists' => 'Email đã tồn tại',
 
         // Messages
         'success' => 'Thành công',
@@ -305,6 +312,7 @@ return [
         'loading' => 'Đang tải...',
         'no_results' => 'Không tìm thấy kết quả',
         'required_field' => 'Trường này là bắt buộc',
+        'registration_success' => 'Đăng ký thành công! Vui lòng đăng nhập để tiếp tục.',
 
         // Product Pages
         'search_results_for' => 'Kết quả tìm kiếm cho',

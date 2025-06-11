@@ -24,27 +24,35 @@ class RegisterController extends Controller {
             $errors = [];
             
             if (empty($username)) {
-                $errors[] = 'Username is required';
+                $this->redirect('/register?error=missing_fields');
+                return;
             } elseif ($this->userModel->findByUsername($username)) {
-                $errors[] = 'Username already exists';
+                $this->redirect('/register?error=username_exists');
+                return;
             }
 
             if (empty($email)) {
-                $errors[] = 'Email is required';
+                $this->redirect('/register?error=missing_fields');
+                return;
             } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                $errors[] = 'Invalid email format';
+                $this->redirect('/register?error=invalid_email');
+                return;
             } elseif ($this->userModel->findByEmail($email)) {
-                $errors[] = 'Email already exists';
+                $this->redirect('/register?error=email_exists');
+                return;
             }
 
             if (empty($password)) {
-                $errors[] = 'Password is required';
+                $this->redirect('/register?error=missing_fields');
+                return;
             } elseif (strlen($password) < 6) {
-                $errors[] = 'Password must be at least 6 characters';
+                $this->redirect('/register?error=password_too_short');
+                return;
             }
 
             if ($password !== $confirmPassword) {
-                $errors[] = 'Passwords do not match';
+                $this->redirect('/register?error=password_mismatch');
+                return;
             }
 
             if (empty($errors)) {
@@ -61,10 +69,10 @@ class RegisterController extends Controller {
 
                 if ($this->userModel->create($userData)) {
                     // Set success message and redirect to login
-                    $_SESSION['success'] = 'Registration successful! Please login.';
+                    $_SESSION['success'] = 'registration_success';
                     $this->redirect('/login');
                 } else {
-                    $errors[] = 'Registration failed. Please try again.';
+                    $this->redirect('/register?error=registration_failed');
                 }
             }
 
