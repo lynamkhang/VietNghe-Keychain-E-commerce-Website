@@ -36,7 +36,12 @@ class AuthController extends Controller {
                 $_SESSION['user_email'] = $user['email'];
                 $_SESSION['user_name'] = $user['username'];
                 
-                $this->redirect('/');
+                // Redirect admin users to admin dashboard, others to home page
+                if ($user['role'] === 'admin') {
+                    $this->redirect('/admin');
+                } else {
+                    $this->redirect('/');
+                }
             } else {
                 $this->redirect('/login?error=invalid_credentials');
             }
