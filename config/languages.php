@@ -133,6 +133,7 @@ return [
         'password_reset' => 'Password Reset',
         'reset_password' => 'Reset Password',
         'username_or_email' => 'Username or Email',
+        'invalid_credentials' => 'Invalid email/username or password',
 
         // Messages
         'success' => 'Success',
@@ -289,6 +290,7 @@ return [
         'password_reset' => 'Đặt lại mật khẩu',
         'reset_password' => 'Đặt lại mật khẩu',
         'username_or_email' => 'Tên đăng nhập hoặc Email',
+        'invalid_credentials' => 'Sai tên đăng nhập/email hoặc mật khẩu',
 
         // Messages
         'success' => 'Thành công',

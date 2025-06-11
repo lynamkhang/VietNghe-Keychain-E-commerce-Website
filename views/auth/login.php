@@ -14,6 +14,23 @@
                     </div>
                 <?php endif; ?>
 
+                <?php if (isset($_GET['error'])): ?>
+                    <div class="alert alert-danger">
+                        <?php
+                        switch ($_GET['error']) {
+                            case 'invalid_credentials':
+                                echo __('invalid_credentials');
+                                break;
+                            case 'missing_fields':
+                                echo __('fill_required_fields');
+                                break;
+                            default:
+                                echo __('general_error');
+                        }
+                        ?>
+                    </div>
+                <?php endif; ?>
+
                 <?php if (isset($error)): ?>
                     <div class="alert alert-danger"><?php echo __($error); ?></div>
                 <?php endif; ?>
