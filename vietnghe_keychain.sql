@@ -52,13 +52,6 @@ CREATE TABLE `orders` (
   `shipping_address` varchar(200) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `orders`
---
-
-INSERT INTO `orders` (`order_id`, `user_id`, `cart_id`, `processed_by`, `order_date`, `total_amount`, `status`, `shipping_address`) VALUES
-(2, 1, 2, NULL, '2025-06-11 04:00:21', 12000.00, 'delivered', '173/13B Bình Thới, Phường 11, Quận 11\nTP.Hồ Chí Minh, Việt Nam');
-
 -- --------------------------------------------------------
 
 --
@@ -73,12 +66,6 @@ CREATE TABLE `order_items` (
   `price` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `order_items`
---
-
-INSERT INTO `order_items` (`order_item_id`, `order_id`, `product_id`, `quantity`, `price`) VALUES
-(2, 2, 6, 1, 12000);
 
 -- --------------------------------------------------------
 
@@ -122,13 +109,6 @@ CREATE TABLE `shopping_carts` (
   `created_at` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `shopping_carts`
---
-
-INSERT INTO `shopping_carts` (`cart_id`, `user_id`, `created_at`) VALUES
-(1, 2, '2025-06-04 08:42:49'),
-(2, 1, '2025-06-04 09:41:59');
 
 -- --------------------------------------------------------
 

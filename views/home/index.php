@@ -52,7 +52,8 @@
                 <div class="card h-100">
                     <img src="<?php echo htmlspecialchars($product['image_url']); ?>" 
                          class="card-img-top" 
-                         alt="<?php echo htmlspecialchars($product['name']); ?>">
+                         alt="<?php echo htmlspecialchars($product['name']); ?>"
+                         style="width: 299px; height: 199px; object-fit: cover;">
                     <div class="card-body">
                         <h5 class="card-title"><?php echo htmlspecialchars($product['name']); ?></h5>
                         <p class="card-text">
