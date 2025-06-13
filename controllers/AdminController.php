@@ -75,8 +75,24 @@ class AdminController extends Controller {
             }
             unset($data['new_password']); // Remove new_password from data array
 
+            // Prepare update data with all fields
+            $updateData = [
+                'username' => $data['username'],
+                'email' => $data['email'],
+                'first_name' => $data['first_name'],
+                'last_name' => $data['last_name'],
+                'role' => $data['role'],
+                'phone' => $data['phone'] ?? null,
+                'address' => $data['address'] ?? null
+            ];
+
+            // Add password to update data if it was changed
+            if (isset($data['password'])) {
+                $updateData['password'] = $data['password'];
+            }
+
             // Update the user
-            if ($this->userModel->update($id, $data)) {
+            if ($this->userModel->update($id, $updateData)) {
                 $this->redirect('/admin/users?success=updated');
             } else {
                 throw new Exception('Failed to update user');
@@ -88,14 +104,24 @@ class AdminController extends Controller {
     }
 
     public function deleteUser($id) {
-        if (!$this->isPost()) {
-            $this->redirect('/admin/users');
-        }
-
         try {
-            $this->userModel->delete($id);
-            $this->redirect('/admin/users?success=deleted');
+            // Prevent deleting the last admin
+            if ($this->userModel->findById($id)['role'] === 'admin') {
+                $adminCount = $this->userModel->countAdmins();
+                if ($adminCount <= 1) {
+                    $this->redirect('/admin/users?error=Cannot delete the last admin user');
+                    return;
+                }
+            }
+
+            // Delete the user and all related data
+            if ($this->userModel->deleteUser($id)) {
+                $this->redirect('/admin/users?success=deleted');
+            } else {
+                $this->redirect('/admin/users?error=delete_failed');
+            }
         } catch (Exception $e) {
+            error_log("Error deleting user: " . $e->getMessage());
             $this->redirect('/admin/users?error=delete_failed');
         }
     }

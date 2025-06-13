@@ -2,9 +2,12 @@
         <input type="hidden" name="<?php echo htmlspecialchars($key); ?>" 
                value="<?php echo htmlspecialchars($value); ?>">
     <div class="col-md-6">
-        <img src="<?php echo htmlspecialchars($product['image_url']); ?>" 
-             class="img-fluid rounded" 
-             alt="<?php echo htmlspecialchars($product['name']); ?>">
+        <div class="product-image-container" style="width: 100%; height: 400px; overflow: hidden; display: flex; align-items: center; justify-content: center; background-color: #f8f9fa; border-radius: 8px;">
+            <img src="<?php echo htmlspecialchars($product['image_url']); ?>" 
+                 class="img-fluid rounded" 
+                 alt="<?php echo htmlspecialchars($product['name']); ?>"
+                 style="max-width: 100%; max-height: 100%; object-fit: contain;">
+        </div>
     </div>
     <div class="col-md-6">
         <h1><?php echo htmlspecialchars($product['name']); ?></h1>

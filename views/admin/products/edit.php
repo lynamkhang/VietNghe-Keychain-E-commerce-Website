@@ -53,9 +53,9 @@
 
                     <div class="mb-3">
                         <label for="image" class="form-label">Product Image</label>
-                        <?php if (!empty($product['image'])): ?>
+                        <?php if (!empty($product['image_url'])): ?>
                             <div class="mb-2">
-                                <img src="<?= $basePath ?>/uploads/products/<?= $product['image'] ?>" alt="Current product image" style="max-width: 200px;" class="img-thumbnail">
+                                <img src="<?= $basePath . $product['image_url'] ?>" alt="Current product image" style="max-width: 200px;" class="img-thumbnail">
                             </div>
                         <?php endif; ?>
                         <input type="file" class="form-control" id="image" name="image" accept="image/*">

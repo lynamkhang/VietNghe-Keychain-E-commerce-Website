@@ -100,4 +100,73 @@ class User extends Model {
         $result = $this->db->query($sql);
         return $result->fetch_all(MYSQLI_ASSOC);
     }
+
+    public function deleteUser($userId) {
+        try {
+            $this->db->begin_transaction();
+
+            // 1. Delete user's cart items
+            $sql = "DELETE ci FROM cart_items ci 
+                    JOIN shopping_carts sc ON ci.cart_id = sc.cart_id 
+                    WHERE sc.user_id = ?";
+            $stmt = $this->db->prepare($sql);
+            $stmt->bind_param("i", $userId);
+            $stmt->execute();
+
+            // 2. Delete user's order items
+            $sql = "DELETE oi FROM order_items oi 
+                    JOIN orders o ON oi.order_id = o.order_id 
+                    WHERE o.user_id = ?";
+            $stmt = $this->db->prepare($sql);
+            $stmt->bind_param("i", $userId);
+            $stmt->execute();
+
+            // 3. Delete user's orders
+            $sql = "DELETE FROM orders WHERE user_id = ?";
+            $stmt = $this->db->prepare($sql);
+            $stmt->bind_param("i", $userId);
+            $stmt->execute();
+
+            // 4. Delete user's shopping carts
+            $sql = "DELETE FROM shopping_carts WHERE user_id = ?";
+            $stmt = $this->db->prepare($sql);
+            $stmt->bind_param("i", $userId);
+            $stmt->execute();
+
+            // 5. Update orders to set processed_by to NULL if the user was processing them
+            $sql = "UPDATE orders SET processed_by = NULL WHERE processed_by = ?";
+            $stmt = $this->db->prepare($sql);
+            $stmt->bind_param("i", $userId);
+            $stmt->execute();
+
+            // 6. Update products to set created_by to NULL if the user created them
+            $sql = "UPDATE products SET created_by = NULL WHERE created_by = ?";
+            $stmt = $this->db->prepare($sql);
+            $stmt->bind_param("i", $userId);
+            $stmt->execute();
+
+            // 7. Finally, delete the user
+            $sql = "DELETE FROM {$this->table} WHERE {$this->primaryKey} = ?";
+            $stmt = $this->db->prepare($sql);
+            $stmt->bind_param("i", $userId);
+            $stmt->execute();
+
+            $this->db->commit();
+            return true;
+        } catch (Exception $e) {
+            $this->db->rollback();
+            error_log("Error deleting user: " . $e->getMessage());
+            throw $e;
+        }
+    }
+
+    public function countAdmins() {
+        $sql = "SELECT COUNT(*) as count FROM {$this->table} WHERE role = 'admin'";
+        $result = $this->db->query($sql);
+        if (!$result) {
+            return 0;
+        }
+        $row = $result->fetch_assoc();
+        return $row['count'];
+    }
 }

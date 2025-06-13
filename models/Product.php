@@ -51,8 +51,34 @@ class Product extends Model
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
+    public function count() {
+        $sql = "SELECT COUNT(*) as count FROM {$this->table} WHERE deleted = 0";
+        $result = $this->db->query($sql);
+        if (!$result) {
+            return 0;
+        }
+        $row = $result->fetch_assoc();
+        return $row['count'];
+    }
+
     public function softDelete($id) {
         try {
+            // Get product image URL before deletion
+            $sql = "SELECT image_url FROM {$this->table} WHERE {$this->primaryKey} = ?";
+            $stmt = $this->db->prepare($sql);
+            $stmt->bind_param("i", $id);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $product = $result->fetch_assoc();
+
+            // Delete the image file if it exists
+            if ($product && !empty($product['image_url'])) {
+                $imagePath = __DIR__ . '/../public' . $product['image_url'];
+                if (file_exists($imagePath)) {
+                    unlink($imagePath);
+                }
+            }
+
             // Check if product exists in any orders
             $sql = "SELECT COUNT(*) as count FROM order_items WHERE product_id = ?";
             $stmt = $this->db->prepare($sql);
@@ -141,7 +167,7 @@ class Product extends Model
     {
         // Handle image upload if present
         if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
-            $uploadDir = 'uploads/products/';
+            $uploadDir = __DIR__ . '/../public/uploads/products/';
             if (!file_exists($uploadDir)) {
                 mkdir($uploadDir, 0777, true);
             }
@@ -155,7 +181,23 @@ class Product extends Model
                 $uploadFile = $uploadDir . $fileName;
 
                 if (move_uploaded_file($_FILES['image']['tmp_name'], $uploadFile)) {
-                    $data['image'] = $fileName;
+                    // Delete old image if exists
+                    $sql = "SELECT image_url FROM {$this->table} WHERE {$this->primaryKey} = ?";
+                    $stmt = $this->db->prepare($sql);
+                    $stmt->bind_param("i", $id);
+                    $stmt->execute();
+                    $result = $stmt->get_result();
+                    $oldProduct = $result->fetch_assoc();
+
+                    if ($oldProduct && !empty($oldProduct['image_url'])) {
+                        $oldImagePath = __DIR__ . '/../public' . $oldProduct['image_url'];
+                        if (file_exists($oldImagePath)) {
+                            unlink($oldImagePath);
+                        }
+                    }
+
+                    // Set new image URL
+                    $data['image_url'] = '/vietnghe-keychain/public/uploads/products/' . $fileName;
                 }
             }
         }
